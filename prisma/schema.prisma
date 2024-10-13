@@ -32,8 +32,6 @@ model Tool {
   categoryID  String
   category    Category    @relation("ToolCategory", fields: [categoryID], references: [id])
   favorites   Favorite[]
-  suggestedBy String?
-  user        User?       @relation(fields: [suggestedBy], references: [githubId])
   Sugestion   Sugestion[]
 
   @@map("tools")
@@ -56,7 +54,6 @@ model User {
   role        UserRole    @default(USER)
   favorites   Favorite[]  @relation("UserFavorites")
   suggestions Sugestion[] @relation("UserSuggestions")
-  Tool        Tool[]
 
   @@map("users")
 }
@@ -79,12 +76,12 @@ model Sugestion {
   description String
   categoryId  String
   userId      String
-  toolId      String? // Torne este campo opcional
+  toolId      String?
   status      SuggestionStatus @default(PENDING)
   date        DateTime         @default(now())
   user        User             @relation("UserSuggestions", fields: [userId], references: [githubId])
   category    Category         @relation("SuggestionCategory", fields: [categoryId], references: [id])
-  tool        Tool?            @relation(fields: [toolId], references: [id]) // Torne o campo de relação opcional
+  tool        Tool?            @relation(fields: [toolId], references: [id])
 
   @@map("suggestions")
 }

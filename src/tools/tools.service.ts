@@ -16,7 +16,6 @@ export class ToolsService {
         iconUrl: createToolDto.iconUrl,
         description: createToolDto.description,
         categoryID: createToolDto.categoryID,
-        suggestedBy: createToolDto.suggestedBy, // Opcional, se a ferramenta foi sugerida por alguém
       },
     });
   }

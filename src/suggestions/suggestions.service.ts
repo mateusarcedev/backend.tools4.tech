@@ -57,7 +57,6 @@ export class SuggestionsService {
         iconUrl: suggestion.iconUrl,
         description: suggestion.description,
         categoryID: suggestion.categoryId,
-        suggestedBy: suggestion.userId, // Associar ao usuário que sugeriu
       },
     });
 
