@@ -13,7 +13,6 @@ export class ToolsService {
       data: {
         name: createToolDto.name,
         link: createToolDto.link,
-        iconUrl: createToolDto.iconUrl,
         description: createToolDto.description,
         categoryID: createToolDto.categoryID,
       },

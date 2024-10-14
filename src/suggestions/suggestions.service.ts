@@ -14,10 +14,8 @@ export class SuggestionsService {
       data: {
         name: createSuggestionDto.name,
         link: createSuggestionDto.link,
-        iconUrl: createSuggestionDto.iconUrl,
         description: createSuggestionDto.description,
         categoryId: createSuggestionDto.categoryId,
-        userId: createSuggestionDto.userId,
         status: SuggestionStatus.PENDING, // Define o status inicial como PENDING
       },
     });
@@ -25,11 +23,7 @@ export class SuggestionsService {
 
   // Lista todas as sugestões
   async findAll() {
-    return this.prisma.sugestion.findMany({
-      include: {
-        user: true, // Incluir dados do usuário que fez a sugestão
-      },
-    });
+    return this.prisma.sugestion.findMany();
   }
 
   // Encontra uma sugestão pelo ID
@@ -54,7 +48,6 @@ export class SuggestionsService {
       data: {
         name: suggestion.name,
         link: suggestion.link,
-        iconUrl: suggestion.iconUrl,
         description: suggestion.description,
         categoryID: suggestion.categoryId,
       },
@@ -81,7 +74,6 @@ export class SuggestionsService {
       data: {
         name: updateSuggestionDto.name,
         link: updateSuggestionDto.link,
-        iconUrl: updateSuggestionDto.iconUrl,
         description: updateSuggestionDto.description,
         categoryId: updateSuggestionDto.categoryId,
         // Não atualiza o userId ou o status aqui, a menos que necessário

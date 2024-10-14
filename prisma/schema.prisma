@@ -27,7 +27,6 @@ model Tool {
   id          String      @id @default(uuid())
   name        String
   link        String      @unique
-  iconUrl     String
   description String
   categoryID  String
   category    Category    @relation("ToolCategory", fields: [categoryID], references: [id])
@@ -47,13 +46,12 @@ model Category {
 }
 
 model User {
-  githubId    String      @id @unique
-  name        String
-  email       String
-  avatar      String
-  role        UserRole    @default(USER)
-  favorites   Favorite[]  @relation("UserFavorites")
-  suggestions Sugestion[] @relation("UserSuggestions")
+  githubId  String     @id @unique
+  name      String
+  email     String
+  avatar    String
+  role      UserRole   @default(USER)
+  favorites Favorite[] @relation("UserFavorites")
 
   @@map("users")
 }
@@ -72,14 +70,11 @@ model Sugestion {
   id          String           @id @default(uuid())
   name        String
   link        String
-  iconUrl     String
   description String
   categoryId  String
-  userId      String
   toolId      String?
   status      SuggestionStatus @default(PENDING)
   date        DateTime         @default(now())
-  user        User             @relation("UserSuggestions", fields: [userId], references: [githubId])
   category    Category         @relation("SuggestionCategory", fields: [categoryId], references: [id])
   tool        Tool?            @relation(fields: [toolId], references: [id])
 

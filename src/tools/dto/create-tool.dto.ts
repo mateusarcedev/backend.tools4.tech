@@ -12,11 +12,6 @@ export class CreateToolDto {
   link: string;
 
   @IsNotEmpty()
-  @IsUrl()
-  @ApiProperty({ example: 'https://example.com/icon.png' })
-  iconUrl: string;
-
-  @IsNotEmpty()
   @ApiProperty({ example: 'This tool does amazing things!' })
   description: string;
 

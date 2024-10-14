@@ -4,7 +4,6 @@ export class SuggestionEntity implements Sugestion {
   id: string;
   name: string;
   link: string;
-  iconUrl: string;
   description: string;
   categoryId: string;
   userId: string;

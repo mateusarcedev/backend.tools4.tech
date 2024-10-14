@@ -11,10 +11,6 @@ export class CreateSuggestionDto {
 
   @IsNotEmpty()
   @IsString()
-  iconUrl: string;
-
-  @IsNotEmpty()
-  @IsString()
   description: string;
 
   @IsNotEmpty()
