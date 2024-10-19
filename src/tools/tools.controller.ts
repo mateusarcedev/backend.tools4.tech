@@ -11,9 +11,9 @@ export class ToolsController {
   constructor(private readonly toolsService: ToolsService) { }
 
   @Post()
-  @ApiAcceptedResponse({ type: ToolEntity })
-  create(@Body() createToolDto: CreateToolDto) {
-    return this.toolsService.create(createToolDto);
+  @ApiAcceptedResponse({ type: ToolEntity, isArray: true })
+  create(@Body() createToolDtos: CreateToolDto[]) {
+    return this.toolsService.create(createToolDtos);
   }
 
   @Get()
