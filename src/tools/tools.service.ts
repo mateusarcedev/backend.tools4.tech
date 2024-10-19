@@ -8,14 +8,15 @@ export class ToolsService {
   constructor(private prisma: PrismaService) { }
 
   // Cria uma nova ferramenta
-  async create(createToolDto: CreateToolDto) {
+  async create(createToolDtos: CreateToolDto[]) {
+    // Use createMany para criar múltiplas ferramentas
     return this.prisma.tool.createMany({
-      data: {
-        name: createToolDto.name,
-        link: createToolDto.link,
-        description: createToolDto.description,
-        categoryID: createToolDto.categoryID,
-      },
+      data: createToolDtos.map(dto => ({
+        name: dto.name,
+        link: dto.link,
+        description: dto.description,
+        categoryID: dto.categoryID,
+      })),
     });
   }
 
