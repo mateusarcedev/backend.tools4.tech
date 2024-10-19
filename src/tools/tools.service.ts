@@ -9,7 +9,7 @@ export class ToolsService {
 
   // Cria uma nova ferramenta
   async create(createToolDto: CreateToolDto) {
-    return this.prisma.tool.create({
+    return this.prisma.tool.createMany({
       data: {
         name: createToolDto.name,
         link: createToolDto.link,
