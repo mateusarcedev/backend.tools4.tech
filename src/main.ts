@@ -6,12 +6,12 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Habilitar CORS para todas as origens (ou especificar origens permitidas)
   app.enableCors({
-    origin: 'http://localhost:3001', // Permitir apenas essa origem (frontend)
+    origin: '*', // Permitir qualquer origem por enquanto
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos permitidos
     credentials: true, // Permitir cookies ou credenciais
   });
+
 
   app.useGlobalPipes(new ValidationPipe());
 
