@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class CreateFavoriteDto {
 
   @IsNotEmpty()
-  @IsUUID()  // Adicionando validação de UUID
+  @IsString()
   @ApiProperty({
     description: 'The ID of the user who favorites the tool',
     example: 'user-uuid',
