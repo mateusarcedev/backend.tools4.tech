@@ -10,11 +10,11 @@ export class FavoritesService {
   async create(createFavoriteDto: CreateFavoriteDto) {
     const { userId, toolId } = createFavoriteDto;
 
-    const userExists = await this.prisma.user.findUnique({ where: { githubId: userId } });
+    // Remove user verification
     const toolExists = await this.prisma.tool.findUnique({ where: { id: toolId } });
 
-    if (!userExists || !toolExists) {
-      throw new Error('User or Tool not found');
+    if (!toolExists) {
+      throw new Error('Tool not found');
     }
 
     return this.prisma.favorite.create({
@@ -28,6 +28,16 @@ export class FavoritesService {
 
   findOne(id: string) {
     return this.prisma.favorite.findUnique({ where: { id } });
+  }
+
+  async findByUserAndTool(userId: string, toolId: string) {
+    const favorite = await this.prisma.favorite.findFirst({
+      where: {
+        userId,
+        toolId,
+      },
+    });
+    return { isFavorite: !!favorite };
   }
 
   update(id: string, updateFavoriteDto: UpdateFavoriteDto) {
