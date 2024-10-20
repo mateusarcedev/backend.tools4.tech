@@ -76,7 +76,7 @@ export class SuggestionsService {
         link: updateSuggestionDto.link,
         description: updateSuggestionDto.description,
         categoryId: updateSuggestionDto.categoryId,
-        // Não atualiza o userId ou o status aqui, a menos que necessário
+
       },
     });
   }

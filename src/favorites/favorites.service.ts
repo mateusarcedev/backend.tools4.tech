@@ -10,6 +10,9 @@ export class FavoritesService {
   async create(createFavoriteDto: CreateFavoriteDto) {
     const { userId, toolId } = createFavoriteDto;
 
+    // Convert userId to string
+    const userIdStr = userId.toString();
+
     // Remove user verification
     const toolExists = await this.prisma.tool.findUnique({ where: { id: toolId } });
 
@@ -18,7 +21,7 @@ export class FavoritesService {
     }
 
     return this.prisma.favorite.create({
-      data: { userId, toolId },
+      data: { userId: userIdStr, toolId },
     });
   }
 

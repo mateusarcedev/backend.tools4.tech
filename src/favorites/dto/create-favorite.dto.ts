@@ -4,6 +4,7 @@ import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 export class CreateFavoriteDto {
 
   @IsNotEmpty()
+  @IsString()
   @ApiProperty({
     description: 'The ID of the user who favorites the tool',
     example: 'user-uuid',
