@@ -7,9 +7,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ToolsService {
   constructor(private prisma: PrismaService) { }
 
-  // Cria uma nova ferramenta
+
   async create(createToolDtos: CreateToolDto[]) {
-    // Use createMany para criar múltiplas ferramentas
+
     return this.prisma.tool.createMany({
       data: createToolDtos.map(dto => ({
         name: dto.name,
@@ -20,12 +20,12 @@ export class ToolsService {
     });
   }
 
-  // Lista todas as ferramentas
+
   async findAll() {
     return this.prisma.tool.findMany();
   }
 
-  // Encontra uma ferramenta pelo ID
+
   async findOne(id: string) {
     const tool = await this.prisma.tool.findUnique({ where: { id } });
     if (!tool) {
@@ -34,7 +34,7 @@ export class ToolsService {
     return tool;
   }
 
-  // Atualiza uma ferramenta
+
   async update(id: string, updateToolDto: UpdateToolDto) {
     const tool = await this.prisma.tool.findUnique({ where: { id } });
     if (!tool) {
@@ -46,7 +46,7 @@ export class ToolsService {
     });
   }
 
-  // Remove uma ferramenta
+
   async remove(id: string) {
     const tool = await this.prisma.tool.findUnique({ where: { id } });
     if (!tool) {

@@ -11,18 +11,18 @@ export class UsersService {
     const { githubId, name, email, avatar } = createUserDto;
 
     const existingUser = await this.prisma.user.findUnique({
-      where: { githubId }, // Usar githubId diretamente como Int
+      where: { githubId },
     });
 
     if (existingUser) {
       return this.prisma.user.update({
-        where: { githubId }, // Usar githubId diretamente como Int
+        where: { githubId },
         data: { name, email, avatar },
       });
     }
 
     return this.prisma.user.create({
-      data: { githubId, name, email, avatar }, // Usar githubId diretamente como Int
+      data: { githubId, name, email, avatar },
     });
   }
 
@@ -30,22 +30,22 @@ export class UsersService {
     return this.prisma.user.findMany();
   }
 
-  findOne(githubId: number) { // Alterar o tipo para number
+  findOne(githubId: number) {
     return this.prisma.user.findUnique({
-      where: { githubId }, // Usar githubId diretamente como Int
+      where: { githubId },
     });
   }
 
-  update(githubId: number, updateUserDto: UpdateUserDto) { // Alterar o tipo para number
+  update(githubId: number, updateUserDto: UpdateUserDto) {
     return this.prisma.user.update({
-      where: { githubId }, // Usar githubId diretamente como Int
+      where: { githubId },
       data: updateUserDto,
     });
   }
 
-  remove(githubId: number) { // Alterar o tipo para number
+  remove(githubId: number) {
     return this.prisma.user.delete({
-      where: { githubId }, // Usar githubId diretamente como Int
+      where: { githubId },
     });
   }
 }

@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateSuggestionDto } from './dto/create-suggestion.dto'; // Certifique-se de criar este DTO
-import { UpdateSuggestionDto } from './dto/update-suggestion.dto'; // Certifique-se de criar este DTO também
+import { CreateSuggestionDto } from './dto/create-suggestion.dto';
+import { UpdateSuggestionDto } from './dto/update-suggestion.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Tool, SuggestionStatus } from '@prisma/client'; // Para uso do modelo Tool e SuggestionStatus
+import { Tool, SuggestionStatus } from '@prisma/client';
 
 @Injectable()
 export class SuggestionsService {
@@ -16,17 +16,17 @@ export class SuggestionsService {
         link: createSuggestionDto.link,
         description: createSuggestionDto.description,
         categoryId: createSuggestionDto.categoryId,
-        status: SuggestionStatus.PENDING, // Define o status inicial como PENDING
+        status: SuggestionStatus.PENDING,
       },
     });
   }
 
-  // Lista todas as sugestões
+
   async findAll() {
     return this.prisma.sugestion.findMany();
   }
 
-  // Encontra uma sugestão pelo ID
+
   async findOne(id: string) {
     const suggestion = await this.prisma.sugestion.findUnique({ where: { id } });
     if (!suggestion) {
@@ -35,7 +35,7 @@ export class SuggestionsService {
     return suggestion;
   }
 
-  // Aprova uma sugestão, criando uma nova ferramenta
+
   async approveSuggestion(id: string) {
     const suggestion = await this.prisma.sugestion.findUnique({ where: { id } });
 
@@ -43,7 +43,7 @@ export class SuggestionsService {
       throw new NotFoundException('Suggestion not found');
     }
 
-    // Cria uma nova ferramenta
+
     const newTool = await this.prisma.tool.create({
       data: {
         name: suggestion.name,
@@ -53,16 +53,16 @@ export class SuggestionsService {
       },
     });
 
-    // Atualiza o status da sugestão para APROVED
+
     await this.prisma.sugestion.update({
       where: { id },
-      data: { status: SuggestionStatus.APPROVED, toolId: newTool.id }, // Associando a nova ferramenta
+      data: { status: SuggestionStatus.APPROVED, toolId: newTool.id },
     });
 
-    return newTool; // Retorna a nova ferramenta criada
+    return newTool;
   }
 
-  // Atualiza uma sugestão existente
+
   async update(id: string, updateSuggestionDto: UpdateSuggestionDto) {
     const suggestion = await this.prisma.sugestion.findUnique({ where: { id } });
     if (!suggestion) {
@@ -81,7 +81,7 @@ export class SuggestionsService {
     });
   }
 
-  // Remove uma sugestão
+
   async remove(id: string) {
     const suggestion = await this.prisma.sugestion.findUnique({ where: { id } });
     if (!suggestion) {

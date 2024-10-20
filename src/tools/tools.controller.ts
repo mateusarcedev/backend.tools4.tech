@@ -11,7 +11,7 @@ export class ToolsController {
   constructor(private readonly toolsService: ToolsService) { }
 
   @Post()
-  @ApiAcceptedResponse({ type: ToolEntity, isArray: true }) // A resposta ainda será um array
+  @ApiAcceptedResponse({ type: ToolEntity, isArray: true })
   create(@Body() createToolDto: CreateToolDto | CreateToolDto[]) {
 
     if (Array.isArray(createToolDto)) {
