@@ -20,7 +20,10 @@ export class FavoritesController {
   }
 
   @Get('check')
-  findByUserAndTool(@Query('userId') userId: string, @Query('toolId') toolId: string) {
+  findByUserAndTool(
+    @Query('userId') userId: number,
+    @Query('toolId') toolId: string
+  ) {
     return this.favoritesService.findByUserAndTool(userId, toolId);
   }
 

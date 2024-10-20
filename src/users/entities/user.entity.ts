@@ -4,7 +4,7 @@ import { $Enums, User } from '@prisma/client'
 
 export class UserEntity implements User {
   @ApiProperty()
-  githubId: string;
+  githubId: number;
 
   @ApiProperty()
   name: string;

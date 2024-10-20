@@ -10,46 +10,42 @@ export class UsersService {
   async createOrUpdateUser(createUserDto: CreateUserDto) {
     const { githubId, name, email, avatar } = createUserDto;
 
-    const githubIdString = githubId.toString();
-
     const existingUser = await this.prisma.user.findUnique({
-      where: { githubId: githubIdString },
+      where: { githubId }, // Usar githubId diretamente como Int
     });
 
     if (existingUser) {
       return this.prisma.user.update({
-        where: { githubId: githubIdString },
+        where: { githubId }, // Usar githubId diretamente como Int
         data: { name, email, avatar },
       });
     }
 
     return this.prisma.user.create({
-      data: { githubId: githubIdString, name, email, avatar },
+      data: { githubId, name, email, avatar }, // Usar githubId diretamente como Int
     });
   }
-
 
   findAll() {
     return this.prisma.user.findMany();
   }
 
-  findOne(githubId: string) {
+  findOne(githubId: number) { // Alterar o tipo para number
     return this.prisma.user.findUnique({
-      where: { githubId: githubId.toString() },
+      where: { githubId }, // Usar githubId diretamente como Int
     });
   }
 
-  update(githubId: string, updateUserDto: UpdateUserDto) {
+  update(githubId: number, updateUserDto: UpdateUserDto) { // Alterar o tipo para number
     return this.prisma.user.update({
-      where: { githubId: githubId.toString() },
+      where: { githubId }, // Usar githubId diretamente como Int
       data: updateUserDto,
     });
   }
 
-  remove(githubId: string) {
+  remove(githubId: number) { // Alterar o tipo para number
     return this.prisma.user.delete({
-      where: { githubId: githubId.toString() },
+      where: { githubId }, // Usar githubId diretamente como Int
     });
   }
-
 }

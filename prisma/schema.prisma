@@ -46,7 +46,7 @@ model Category {
 }
 
 model User {
-  githubId  String     @id @unique
+  githubId  Int        @id @unique
   name      String
   email     String
   avatar    String
@@ -58,7 +58,7 @@ model User {
 
 model Favorite {
   id     String @id @default(uuid())
-  userId String
+  userId Int // Mudança de String para Int
   toolId String
   user   User   @relation("UserFavorites", fields: [userId], references: [githubId])
   tool   Tool   @relation(fields: [toolId], references: [id])

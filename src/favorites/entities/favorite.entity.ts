@@ -6,7 +6,7 @@ export class FavoriteEntity implements Favorite {
   id: string;
 
   @ApiProperty()
-  userId: string;
+  userId: number;
 
   @ApiProperty()
   toolId: string;
