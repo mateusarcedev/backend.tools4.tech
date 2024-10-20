@@ -10,7 +10,6 @@ export class FavoritesService {
   async create(createFavoriteDto: CreateFavoriteDto) {
     const { userId, toolId } = createFavoriteDto;
 
-    // Remove user verification
     const toolExists = await this.prisma.tool.findUnique({ where: { id: toolId } });
 
     if (!toolExists) {
@@ -18,7 +17,7 @@ export class FavoritesService {
     }
 
     return this.prisma.favorite.create({
-      data: { userId, toolId }, // Use userId directly as Int
+      data: { userId, toolId },
     });
   }
 
@@ -30,14 +29,35 @@ export class FavoritesService {
     return this.prisma.favorite.findUnique({ where: { id } });
   }
 
-  async findByUserAndTool(userId: number, toolId: string) { // Change userId type to number
+  async checkFavorite(userId: number, toolId: string) {
     const favorite = await this.prisma.favorite.findFirst({
       where: {
-        userId, // Use userId directly
+        userId,
         toolId,
       },
     });
     return { isFavorite: !!favorite };
+  }
+
+  async toggleFavorite(userId: number, toolId: string) {
+    const existingFavorite = await this.prisma.favorite.findFirst({
+      where: {
+        userId,
+        toolId,
+      },
+    });
+
+    if (existingFavorite) {
+      await this.prisma.favorite.delete({
+        where: { id: existingFavorite.id },
+      });
+      return { isFavorite: false };
+    } else {
+      await this.prisma.favorite.create({
+        data: { userId, toolId },
+      });
+      return { isFavorite: true };
+    }
   }
 
   update(id: string, updateFavoriteDto: UpdateFavoriteDto) {
