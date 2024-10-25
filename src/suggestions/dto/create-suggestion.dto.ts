@@ -16,8 +16,4 @@ export class CreateSuggestionDto {
   @IsNotEmpty()
   @IsString()
   categoryId: string;
-
-  @IsNotEmpty()
-  @IsString()
-  userId: string;
 }

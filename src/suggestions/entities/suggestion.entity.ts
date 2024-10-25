@@ -6,7 +6,6 @@ export class SuggestionEntity implements Sugestion {
   link: string;
   description: string;
   categoryId: string;
-  userId: string;
   toolId: string;
   status: SuggestionStatus;
   date: Date;
