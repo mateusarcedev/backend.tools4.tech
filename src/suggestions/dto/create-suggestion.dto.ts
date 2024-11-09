@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class CreateSuggestionDto {
   @IsNotEmpty()
@@ -16,4 +16,8 @@ export class CreateSuggestionDto {
   @IsNotEmpty()
   @IsString()
   categoryId: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  userId: number;
 }

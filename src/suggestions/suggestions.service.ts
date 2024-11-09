@@ -1,92 +1,77 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateSuggestionDto } from './dto/create-suggestion.dto';
-import { UpdateSuggestionDto } from './dto/update-suggestion.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { Tool, SuggestionStatus } from '@prisma/client';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { CreateSuggestionDto } from "./dto/create-suggestion.dto";
+import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class SuggestionsService {
   constructor(private prisma: PrismaService) { }
 
-  // Cria uma nova sugestão
   async create(createSuggestionDto: CreateSuggestionDto) {
+    const { name, link, description, categoryId, userId } = createSuggestionDto;
+
+    // Verificar se o usuário existe
+    const user = await this.prisma.user.findUnique({
+      where: { githubId: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     return this.prisma.sugestion.create({
       data: {
-        name: createSuggestionDto.name,
-        link: createSuggestionDto.link,
-        description: createSuggestionDto.description,
-        categoryId: createSuggestionDto.categoryId,
+        name,
+        link,
+        description,
+        categoryId,
+        userId,
         status: SuggestionStatus.PENDING,
       },
+      include: {
+        user: true,
+        category: true,
+      },
     });
   }
 
-
+  // Atualizar o findAll para incluir os dados do usuário
   async findAll() {
-    return this.prisma.sugestion.findMany();
+    return this.prisma.sugestion.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+            avatar: true,
+            email: true,
+          },
+        },
+        category: true,
+        tool: true,
+      },
+    });
   }
 
-
+  // Atualizar o findOne para incluir os dados do usuário
   async findOne(id: string) {
-    const suggestion = await this.prisma.sugestion.findUnique({ where: { id } });
+    const suggestion = await this.prisma.sugestion.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: {
+            name: true,
+            avatar: true,
+            email: true,
+          },
+        },
+        category: true,
+        tool: true,
+      },
+    });
+
     if (!suggestion) {
       throw new NotFoundException('Suggestion not found');
     }
+
     return suggestion;
-  }
-
-
-  async approveSuggestion(id: string) {
-    const suggestion = await this.prisma.sugestion.findUnique({ where: { id } });
-
-    if (!suggestion) {
-      throw new NotFoundException('Suggestion not found');
-    }
-
-
-    const newTool = await this.prisma.tool.create({
-      data: {
-        name: suggestion.name,
-        link: suggestion.link,
-        description: suggestion.description,
-        categoryID: suggestion.categoryId,
-      },
-    });
-
-
-    await this.prisma.sugestion.update({
-      where: { id },
-      data: { status: SuggestionStatus.APPROVED, toolId: newTool.id },
-    });
-
-    return newTool;
-  }
-
-
-  async update(id: string, updateSuggestionDto: UpdateSuggestionDto) {
-    const suggestion = await this.prisma.sugestion.findUnique({ where: { id } });
-    if (!suggestion) {
-      throw new NotFoundException('Suggestion not found');
-    }
-
-    return this.prisma.sugestion.update({
-      where: { id },
-      data: {
-        name: updateSuggestionDto.name,
-        link: updateSuggestionDto.link,
-        description: updateSuggestionDto.description,
-        categoryId: updateSuggestionDto.categoryId,
-
-      },
-    });
-  }
-
-
-  async remove(id: string) {
-    const suggestion = await this.prisma.sugestion.findUnique({ where: { id } });
-    if (!suggestion) {
-      throw new NotFoundException('Suggestion not found');
-    }
-    return this.prisma.sugestion.delete({ where: { id } });
   }
 }

@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 generator erd {
@@ -46,12 +47,13 @@ model Category {
 }
 
 model User {
-  githubId  Int        @id @unique
-  name      String
-  email     String
-  avatar    String
-  role      UserRole   @default(USER)
-  favorites Favorite[] @relation("UserFavorites")
+  githubId    Int         @id @unique
+  name        String
+  email       String
+  avatar      String
+  role        UserRole    @default(USER)
+  favorites   Favorite[]  @relation("UserFavorites")
+  suggestions Sugestion[] @relation("UserSuggestions") // Nova relação
 
   @@map("users")
 }
@@ -75,8 +77,10 @@ model Sugestion {
   toolId      String?
   status      SuggestionStatus @default(PENDING)
   date        DateTime         @default(now())
+  userId      Int
   category    Category         @relation("SuggestionCategory", fields: [categoryId], references: [id])
   tool        Tool?            @relation(fields: [toolId], references: [id])
+  user        User             @relation("UserSuggestions", fields: [userId], references: [githubId]) // Nova relação
 
   @@map("suggestions")
 }
