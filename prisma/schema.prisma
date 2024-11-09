@@ -80,7 +80,7 @@ model Sugestion {
   userId      Int
   category    Category         @relation("SuggestionCategory", fields: [categoryId], references: [id])
   tool        Tool?            @relation(fields: [toolId], references: [id])
-  user        User             @relation("UserSuggestions", fields: [userId], references: [githubId]) // Nova relação
+  user        User             @relation("UserSuggestions", fields: [userId], references: [githubId])
 
   @@map("suggestions")
 }

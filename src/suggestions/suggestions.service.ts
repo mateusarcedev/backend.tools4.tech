@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateSuggestionDto } from "./dto/create-suggestion.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { SuggestionStatus } from "@prisma/client";
+import { UpdateSuggestionDto } from "./dto/update-suggestion.dto";
 
 @Injectable()
 export class SuggestionsService {
@@ -75,4 +76,31 @@ export class SuggestionsService {
 
     return suggestion;
   }
+
+  async update(id: string, updateSuggestionDto: UpdateSuggestionDto) {
+    const suggestion = await this.prisma.sugestion.update({
+      where: { id },
+      data: updateSuggestionDto,
+    });
+
+    if (!suggestion) {
+      throw new NotFoundException('Suggestion not found');
+    }
+
+    return suggestion;
+  }
+
+  async remove(id: string) {
+    const suggestion = await this.prisma.sugestion.delete({
+      where: { id },
+    });
+
+    if (!suggestion) {
+      throw new NotFoundException('Suggestion not found');
+    }
+
+    return suggestion;
+  }
+
 }
+

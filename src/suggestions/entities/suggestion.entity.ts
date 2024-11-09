@@ -13,4 +13,5 @@ export class SuggestionEntity implements Sugestion {
   constructor(partial: Partial<SuggestionEntity>) {
     Object.assign(this, partial);
   }
+  userId: number;
 }
