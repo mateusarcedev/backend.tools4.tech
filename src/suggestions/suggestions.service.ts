@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateSuggestionDto } from "./dto/create-suggestion.dto";
 import { PrismaService } from "src/prisma/prisma.service";
+import { SuggestionStatus } from "@prisma/client";
 
 @Injectable()
 export class SuggestionsService {
@@ -9,7 +10,7 @@ export class SuggestionsService {
   async create(createSuggestionDto: CreateSuggestionDto) {
     const { name, link, description, categoryId, userId } = createSuggestionDto;
 
-    // Verificar se o usuário existe
+
     const user = await this.prisma.user.findUnique({
       where: { githubId: userId },
     });
@@ -34,7 +35,7 @@ export class SuggestionsService {
     });
   }
 
-  // Atualizar o findAll para incluir os dados do usuário
+
   async findAll() {
     return this.prisma.sugestion.findMany({
       include: {
@@ -51,7 +52,7 @@ export class SuggestionsService {
     });
   }
 
-  // Atualizar o findOne para incluir os dados do usuário
+
   async findOne(id: string) {
     const suggestion = await this.prisma.sugestion.findUnique({
       where: { id },

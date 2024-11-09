@@ -20,17 +20,17 @@ export class UsersController {
   }
 
   @Get(':githubId')
-  findOne(@Param('githubId') githubId: number) { // Alterado para number
-    return this.usersService.findOne(githubId); // Passa githubId como number
+  findOne(@Param('githubId') githubId: number) {
+    return this.usersService.findOne(githubId);
   }
 
   @Patch(':githubId')
-  update(@Param('githubId') githubId: number, @Body() updateUserDto: UpdateUserDto) { // Alterado para number
-    return this.usersService.update(githubId, updateUserDto); // Passa githubId como number
+  update(@Param('githubId') githubId: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(githubId, updateUserDto);
   }
 
   @Delete(':githubId')
-  remove(@Param('githubId') githubId: number) { // Alterado para number
-    return this.usersService.remove(githubId); // Passa githubId como number
+  remove(@Param('githubId') githubId: number) {
+    return this.usersService.remove(githubId);
   }
 }
