@@ -7,7 +7,7 @@ async function bootstrap() {
 
 
   app.enableCors({
-    origin: 'https://tools4.tech',
+    origin: 'https://www.tools4.tech/',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
