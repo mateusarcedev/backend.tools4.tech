@@ -12,19 +12,12 @@ export class CategoriesService {
   }
 
   findAll() {
-    return this.prisma.category.findMany({
-      include: {
-        tools: true
-      }
-    })
+    return this.prisma.category.findMany({})
   }
 
   findOne(id: string) {
     return this.prisma.category.findUnique({
       where: { id },
-      include: {
-        tools: true
-      }
     })
   }
 

@@ -25,6 +25,16 @@ export class ToolsService {
     return this.prisma.tool.findMany();
   }
 
+  async findToolsByCategory(categoryID: string) {
+    const tools = await this.prisma.tool.findMany({
+      where: {
+        categoryID: categoryID
+      }
+    })
+
+    return tools
+  }
+
 
   async findOne(id: string) {
     const tool = await this.prisma.tool.findUnique({ where: { id } });

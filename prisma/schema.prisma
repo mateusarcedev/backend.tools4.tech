@@ -8,10 +8,10 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-generator erd {
-  provider = "prisma-erd-generator"
-  output   = "../ERD.svg"
-}
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output   = "../ERD.svg"
+// }
 
 enum SuggestionStatus {
   PENDING

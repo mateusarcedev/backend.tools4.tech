@@ -2,8 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ToolsService } from './tools.service';
 import { CreateToolDto } from './dto/create-tool.dto';
 import { UpdateToolDto } from './dto/update-tool.dto';
-import { ApiAcceptedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiAcceptedResponse, ApiOkResponse, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ToolEntity } from './entities/tool.entity';
+import { Tool } from '@prisma/client';
 
 @Controller('tools')
 @ApiTags("Tools")
@@ -26,6 +27,20 @@ export class ToolsController {
   findAll() {
     return this.toolsService.findAll();
   }
+
+  @Get('category/:categoryID')
+  @ApiOperation({ summary: 'Busca ferramentas por categoria' })
+  @ApiParam({ name: 'categoryID', description: 'ID da categoria', type: String })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de ferramentas retornada com sucesso.',
+    isArray: true,
+  })
+  @ApiResponse({ status: 404, description: 'Categoria não encontrada.' })
+  async findToolsByCategory(@Param('categoryID') categoryID: string): Promise<Tool[]> {
+    return this.toolsService.findToolsByCategory(categoryID);
+  }
+
 
   @Get(':id')
   @ApiOkResponse({ type: ToolEntity })
