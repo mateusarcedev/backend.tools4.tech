@@ -12,11 +12,7 @@ export class CategoriesService {
   }
 
   findAll() {
-    return this.prisma.category.findMany({
-      select: {
-        name: true,
-      }
-    })
+    return this.prisma.category.findMany()
   }
 
   findOne(id: string) {
